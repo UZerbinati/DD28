@@ -1,0 +1,56 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=Gradient Evluation] (0) at (-8, 0) {};
+		\node [style=Gradient Evluation] (1) at (-8, 8) {};
+		\node [style=Gradient Evluation] (2) at (0, 0) {};
+		\node [style=PointEvaluation] (3) at (-8, 8) {};
+		\node [style=PointEvaluation] (4) at (-8, 0) {};
+		\node [style=PointEvaluation] (5) at (0, 0) {};
+		\node [style=none] (6) at (-4, 0) {};
+		\node [style=none] (7) at (-4, -1) {};
+		\node [style=none] (8) at (-8, 4) {};
+		\node [style=none] (9) at (-9, 4) {};
+		\node [style=none] (10) at (-4, 4) {};
+		\node [style=PointEvaluation] (12) at (8, 0) {};
+		\node [style=PointEvaluation] (13) at (8, 8) {};
+		\node [style=PointEvaluation] (15) at (16, 0) {};
+		\node [style=PointEvaluation] (16) at (8, 2) {};
+		\node [style=PointEvaluation] (17) at (8, 6) {};
+		\node [style=PointEvaluation] (18) at (8, 4) {};
+		\node [style=PointEvaluation] (19) at (10, 0) {};
+		\node [style=PointEvaluation] (20) at (14, 0) {};
+		\node [style=PointEvaluation] (21) at (12, 0) {};
+		\node [style=PointEvaluation] (22) at (10, 6) {};
+		\node [style=PointEvaluation] (23) at (12, 4) {};
+		\node [style=PointEvaluation] (24) at (14, 2) {};
+		\node [style=Discontinuous Point Evaluation] (25) at (10.25, 2.25) {};
+		\node [style=Discontinuous Point Evaluation] (26) at (11.25, 2.25) {};
+		\node [style=Discontinuous Point Evaluation] (27) at (10.25, 3.25) {};
+		\node [style=none] (29) at (24, 0) {};
+		\node [style=Discontinuous Point Evaluation] (30) at (24, 0) {};
+		\node [style=Discontinuous Point Evaluation] (31) at (24, 8) {};
+		\node [style=Discontinuous Point Evaluation] (32) at (24, 2.75) {};
+		\node [style=Discontinuous Point Evaluation] (33) at (24, 5.25) {};
+		\node [style=Discontinuous Point Evaluation] (34) at (26.75, 0) {};
+		\node [style=Discontinuous Point Evaluation] (35) at (32, 0) {};
+		\node [style=Discontinuous Point Evaluation] (36) at (29.25, 0) {};
+		\node [style=Discontinuous Point Evaluation] (37) at (26.75, 5.25) {};
+		\node [style=Discontinuous Point Evaluation] (38) at (29.25, 2.75) {};
+		\node [style=Discontinuous Point Evaluation] (39) at (26.75, 2.75) {};
+		\node [style=none] (40) at (-3, 5) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw [style=edge] (3) to (4);
+		\draw [style=edge] (5) to (4);
+		\draw [style=edge] (5) to (3);
+		\draw [style=Normal Derivative] (6.center) to (7.center);
+		\draw [style=Normal Derivative] (8.center) to (9.center);
+		\draw [style=Normal Derivative] (10.center) to (40.center);
+		\draw [style=edge] (13) to (12);
+		\draw [style=edge] (12) to (15);
+		\draw [style=edge] (15) to (13);
+		\draw [style=edge] (31) to (30);
+		\draw [style=edge] (30) to (35);
+		\draw [style=edge] (35) to (31);
+	\end{pgfonlayer}
+\end{tikzpicture}

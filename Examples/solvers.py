@@ -73,6 +73,7 @@ paramsPCDLU = {"mat_type": "matfree",
              "fieldsplit_1_pcd_Kp_pc_type": "lu",
              "fieldsplit_1_pcd_Fp_mat_type": "matfree"
 }
+
 class DGMassInv(PCBase):
     def initialize(self, pc):
         _, P = pc.getOperators()
@@ -97,11 +98,12 @@ class DGMassInv(PCBase):
     def applyTranspose(self, pc, x, y):
         raise NotImplementedError("Sorry!")
 
-if __name__ == "__main__":
-    Re = Constant(1e2)
-    gamma = Constant(10000)
-    params = (Re, gamma)
-    appctx = {"nu": 1/Re, "gamma": gamma}
+class Mass(AuxiliaryOperatorPC): 
+    def form(self, pc, test, trial):
+        appctx = self.get_appctx(pc)
+        a=-1/(appctx["gamma"]+appctx["nu"])*inner(test, trial)*dx
+        bcs = None
+        return (a, bcs)
 
 paramsALLU = {
     "snes_monitor": None,
@@ -121,7 +123,7 @@ paramsALLU = {
                         'pc_factor_mat_solver_type': 'mumps',
                         'pc_type': 'lu'},
         'fieldsplit_1': {'ksp_type': 'preonly',
-                        'pc_python_type': __name__ + '.DGMassInv',
+                        'pc_python_type': __name__ + '.Mass',
                         'pc_type': 'python'},
 
 }
@@ -151,7 +153,7 @@ paramsALMG = {
                         'pc_type': 'mg'},
 
     'fieldsplit_1': {'ksp_type': 'preonly',
-                        'pc_python_type': __name__+'.DGMassInv',
+                        'pc_python_type': __name__+'.Mass',
                         'pc_type': 'python'},
     'ksp_converged_reason': None,
     'ksp_max_it': 500,

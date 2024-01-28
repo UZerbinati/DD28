@@ -2,7 +2,6 @@
 \usetheme{Frankfurt}
 \usepackage[utf8]{inputenc}
 \usepackage{charter}
-\usepackage{tikz}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -12,13 +11,16 @@
 \usepackage{mathtools}
 \usepackage{physics}
 \usepackage{caption}
+\usepackage{tikz}
+\usepackage{tikz-cd}
 \captionsetup[figure]{labelformat=empty}
 \mathtoolsset{showonlyrefs}
 \beamertemplatenavigationsymbolsempty
 
 \let\vec\bm
 
-
+\usepackage{tikzit}
+\input{main.tikzstyles}
 
 \pgfdeclareimage[width=\paperwidth]{titlebackground}{Images/title-slide-background.png}
 \setbeamerfont{subtitle}{size=\tiny}
@@ -229,56 +231,6 @@
 		\titlepage
 	\end{frame}
 	\begin{frame}[plain]
-		\begin{picture}(0,0)
-			\put(278,0){%
-				\pgfuseimage{ngslogo}
-			}
-			\put(-8,-5){%
-				\rule{325pt}{0.4pt}
-			}
-		\end{picture}
-		\frametitle{NETGEN}
-		$\newline$
-		$\newline$
-		NETGEN is an advancing front 2D/3D-mesh generator, with many interesting features.
-		$\newline$
-		$\newline$
-		\begin{minipage}{0.58\textwidth}
-			\begin{itemize}
-				\item[\color{oxfordblue}$\blacktriangleright$] The geometry we intend to mesh can be described by a \textbf{Constructive Solid Geometry} (CSG), in particular we can use \textbf{Opencascade} to describe our geometry.
-				\item[\color{oxfordblue}$\blacktriangleright$] It is able to construct isoparametric meshes, which conform to the geometry.
-			\end{itemize}
-		\end{minipage}
-		\qquad
-		\begin{minipage}{0.3\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[scale=1.]{Figures/Schoeberl.jpg}
-				\begin{center}
-					\qquad\small Joachim Sc\"{o}berl
-				\end{center}
-			\end{figure}
-			\vspace{0.3cm}
-		\end{minipage}
-		\begin{picture}(0,0)
-			\put(-308,-75){%
-				\rule{325pt}{0.4pt}
-			}
-			\put(-308,-91){%
-				\pgfuseimage{mathslogo}
-			}
-			\put(-228,-91){%
-				\color{oxfordblue}\tiny\insertshortdate
-			}
-			\put(-168,-91){%
-				\color{oxfordblue}\tiny\insertshorttitle
-			}
-			\put(9,-91){%
-				\color{oxfordblue}\tiny\insertframenumber
-			}
-		\end{picture}
-	\end{frame}
-	\begin{frame}[plain]
 		\frametitle{NETGEN}
 		\ngshead
 		$\newline$
@@ -288,7 +240,7 @@
 		$\newline$
 		\begin{minipage}{0.58\textwidth}
 			\begin{itemize}
-				\item[\color{oxfordblue}$\blacktriangleright$] The geometry we intend to mesh can be described by a \textbf{Constructive Solid Geometry} (CSG), in particular we can use \textbf{Opencascade} to describe our geometry.
+				\item[\color{oxfordblue}$\blacktriangleright$] The geometry we intend to mesh can be described by \textbf{Constructive Solid Geometry} (CSG), in particular we can use \textbf{Opencascade} to describe our geometry.
 				\item[\color{oxfordblue}$\blacktriangleright$] It is able to construct isoparametric meshes, which conform to the geometry.
 			\end{itemize}
 		\end{minipage}
@@ -452,19 +404,19 @@
 	\begin{frame}
 		\frametitle{Stokes flow -- UFL}
 		$\newline$
-		\lstinputlisting[language=python,firstline=26,lastline=30]{Examples/scottVogelius.py}
+		\lstinputlisting[language=python,firstline=27,lastline=31]{Examples/scottVogelius.py}
 	\end{frame}
 	\begin{frame}
 		\frametitle{Stokes flow -- Scott--Vogelius element}
 		$\newline$
 		$\newline$
-		The first element we will use is the Scott--Vogelius pair, which is a mixed finite element of order $k$ for the velocity and order $k-1$ for the pressure.
+		We can use the Scott--Vogelius pair, which is a mixed finite element of order $k$ for the velocity and order $k-1$ for the pressure.
 		Such an element is inf-sup stable for $k \geq 2$, under certain assumptions on the mesh. Such pair is \textbf{divergence-free}.
 		\begin{minipage}{0.75\textwidth}
 			$\newline$	
 			When $k=2$ we need \textbf{Alfeld splits}.
 			\lstinputlisting[language=python,firstline=17,lastline=19]{Examples/scottVogelius.py}
-			\lstinputlisting[language=python,firstline=23,lastline=25]{Examples/scottVogelius.py}
+			\lstinputlisting[language=python,firstline=24,lastline=26]{Examples/scottVogelius.py}
 		\end{minipage}
 		\begin{minipage}{0.2\textwidth}
 			\begin{figure}
@@ -494,7 +446,7 @@
 		$\newline$
 		$\newline$
 		\begin{minipage}{0.8\textwidth}
-			\lstinputlisting[language=python,firstline=23,lastline=25]{Examples/hoodTaylor.py}
+			\lstinputlisting[language=python,firstline=24,lastline=26]{Examples/hoodTaylor.py}
 			\textbf{We lose the point-wise divergence-free property!}
 			This is not an issue because the same would happen for Scott-Vogelius on curved meshes.
 		\end{minipage}
@@ -553,7 +505,7 @@
 				\end{bmatrix}
 				\begin{bmatrix}
 					\hat{A}^{-1}& 0\\
-					0 & \hat{M}^{-1}
+					0 & -\nu \hat{M}^{-1}
 				\end{bmatrix}
 				\begin{bmatrix}
 					I & 0\\
@@ -561,7 +513,7 @@
 				\end{bmatrix}
 			\end{equation}
 			where $M$ is the mass matrix.
-			\lstinputlisting[language=python,firstline=42,lastline=46]{Examples/multigrid.py}
+			\lstinputlisting[language=python,firstline=43,lastline=47]{Examples/multigrid.py}
 		\end{minipage}
 		\begin{minipage}{0.28\textwidth}
 			\begin{figure}
@@ -606,5 +558,135 @@
 			 & - (p,\nabla \cdot \vec{v})_0 + \frac{\gamma}{2}(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
 		\end{align*}
 		and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
+	\end{frame}
+	\begin{frame}
+		\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
+		$\newline$
+		$\newline$
+		The linearized version of the Navier-Stokes equations can be written in matrix form as 
+		\vspace{-0.3cm}
+		\begin{equation}
+			\begin{bmatrix}
+				A+\gamma B^TWB& B^T \\
+				B & 0
+			\end{bmatrix}
+			\begin{bmatrix}\vec{u} \\p\end{bmatrix}=\begin{bmatrix}\vec{f} \\0\end{bmatrix}
+		\end{equation}
+		We choose as preconditioner the \textbf{fieldsplit Schur preconditioner}, i.e.
+		\vspace{-0.3cm}
+		\begin{equation}
+			\begin{bmatrix}
+				I & -\hat{A}_\gamma^{-1} B^T\\
+				0 & I
+			\end{bmatrix}
+			\begin{bmatrix}
+				\hat{A}_\gamma^{-1}& 0\\
+				0 & \hat{S}_\gamma^{-1}
+			\end{bmatrix}
+			\begin{bmatrix}
+				I & 0\\
+				-BA_\gamma^{-1} & I
+			\end{bmatrix}
+		\end{equation}
+		\begin{equation}
+			A_\gamma = A+\gamma B^TWB 	\qquad  S_\gamma = -BA_\gamma^{-1}B^T.
+		\end{equation}
+		In this case, we notice that independently of the Reynolds numbers $S_\gamma\sim - (\nu+\gamma)^{-1} M$.
+	\end{frame}
+	\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
+		$\newline$
+		\begin{itemize}
+			\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robuts.
+			\item [\color{oxfordblue}$\blacktriangleright$] We can use as preconditioner
+			\begin{equation}
+				\begin{bmatrix}
+					I & -\hat{A}_\gamma^{-1} B^T\\
+					0 & I
+				\end{bmatrix}
+				\begin{bmatrix}
+					\hat{A}_\gamma^{-1}& 0\\
+					0 & -(\nu+\gamma)M^{-1}
+				\end{bmatrix}
+				\begin{bmatrix}
+					I & 0\\
+					-BA_\gamma^{-1} & I
+				\end{bmatrix}
+			\end{equation}
+			\item[\color{oxfordblue}$\blacktriangleright$] How do we compute $\hat{A}_\gamma^{-1}$ efficiently ? Can we adopt a multigrid approach ?
+		\end{itemize}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Subspace correction methods for nearly singular
+problems}
+		$\newline$
+		$\newline$
+		To compute $\hat{A}_\gamma^{-1}$ we can use a subspace correction method.
+		We decompose the space $V_h$ as follows:
+		\vspace{-0.3cm}
+		\begin{equation}
+			V_h = \sum_{i=1} V_i.
+		\end{equation}
+		We consider a coarse space $V_H$ and the projection and injection operators:
+		\vspace{-0.3cm}
+		\begin{equation}
+			P_H : V_H \rightarrow V_h, \qquad I : V_h \rightarrow V_i.
+		\end{equation}
+		We then consider as smoother the additive Schwarz preconditioner defined as:
+		\begin{equation}
+			\hat{A}_\gamma^{-1} = P_H A_{\gamma,H}^{-1} P_H^T + \sum_{i=1} I_i A_{\gamma,i}^{-1} I_i^T.
+		\end{equation}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Subspace correction methods for nearly singular
+problems}
+		$\newline$
+		\begin{block}{Robust relaxetion}
+			We need the discrete kernel,
+			\vspace{-0.3cm}
+			\begin{equation}
+				\mathbb{K}_h =  \{\vec{v} \in V_h : B\vec{v} = 0\},
+			\end{equation}
+			to decompose in a \textbf{stable} way as follows:
+			\vspace{-0.3cm}
+			\begin{equation}
+				\mathbb{K}_h = \sum_{i=1} \mathbb{K}_h\cap V_i.
+			\end{equation}
+		\end{block}
+	\end{frame}
+	\begin{frame}[fragile]
+		\frametitle{Robust relaxation -- Hood--Taylor}
+		\begin{equation*}
+			\begin{tikzcd}[row sep=huge]
+			0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2_0(\Omega) \arrow[r,""]\arrow[d] & 0\\
+			0 \arrow[r,""] & \Big[\mathbb{P}^4(\mathcal{T}_h)\Big]^2 \arrow[r,"\curl"] & \Big[\mathbb{P}^3(\mathcal{T}_h)\Big]^2 \arrow[r,"\div"] & \mathbb{P}^2_{disc}(\mathcal{T}_h) \arrow[r,""] & 0\\
+			\end{tikzcd}
+		\end{equation*}
+		\vspace{-2cm}
+		\begin{figure}[h]
+			\centering
+			\hspace{1cm}\scalebox{0.45}{\tikzfig{Figures/DoF}}
+		\end{figure}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Robust prolongation -- Hood--Taylor}
+		$\newline$
+		\begin{block}{Robust relaxetion}
+			If the space pair $(V_h,Q_h)$ is inf-sup stable and the mesh we have a robust prolongation operator defined by:
+			\begin{equation}
+				\tilde P_H \vec{u}_H - \tilde{\vec{u}}_h = \vec{u}_H-\tilde{\vec{u}}_h,
+			\end{equation}
+			where
+			\begin{equation}
+				a_{\gamma}(\tilde{\vec{u}}_h,\tilde{\vec{v}}_h) = \gamma(\nabla \cdot \tilde{\vec{u}}_h,\nabla \cdot \tilde{\vec{v}}_h)_{\pi_{Q_h}\pi{Q_h}^T} \quad \forall \tilde{\vec{v}}_h \in \tilde{V}_h,
+			\end{equation}
+			where $\pi_{Q_h}$ is the $L^2$ projection onto $Q_h$ and $\tilde{V}_h$ is the space of discrete velocity vanishing at the boundary of the coarse cells.
+		\end{block}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Numerical Simulation}
+		\begin{figure}
+			\centering
+			\scalebox{0.2}{\animategraphics[loop,autoplay]{12}{Figures/NS/Velocity.}{0000}{0158}}
+		\end{figure}
 	\end{frame}
 \end{document}

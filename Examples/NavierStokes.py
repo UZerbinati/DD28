@@ -69,9 +69,9 @@ v, q = TestFunctions(Z)
 
 x, y = SpatialCoordinate(mesh)
 
-inflowoutflow = Function(V).interpolate(as_vector([-1, 0]))
-labelsInlet = [i+1 for i, name in enumerate(ngmesh.GetRegionNames(codim=1)) if name in ["outlet"]]
-labelsWall = [i+1 for i, name in enumerate(ngmesh.GetRegionNames(codim=1)) if name in ["wall","cyl"]]
+inflowoutflow = Function(V).interpolate(as_vector([1, 0]))
+labelsInlet = [i+1 for i, name in enumerate(ngmesh.GetRegionNames(codim=1)) if name in ["inlet"]]
+labelsWall = [i+1 for i, name in enumerate(ngmesh.GetRegionNames(codim=1)) if name in ["wall"]]
 bcs = [DirichletBC(Z.sub(0), inflowoutflow, labelsInlet),
        DirichletBC(Z.sub(0), zero(2), labelsWall)]
 nullspace = MixedVectorSpaceBasis(Z, [Z.sub(0), VectorSpaceBasis(constant=True)])
@@ -113,7 +113,9 @@ stepper = TimeStepper(F, butcher_tableau, t, dt, sol, bcs=bcs,
                       solver_parameters=params, appctx=appctx)
 
 outfile1 = File("output/NSVelocity.pvd")
+outfile2 = File("output/NSPressure.pvd")
 outfile1.write(sol.subfunctions[0], time=0)
+outfile2.write(sol.subfunctions[1], time=0)
 
 for j in range(N):
     print(GREEN % ("Computing solution at time: {}".format(float(t))))
@@ -121,4 +123,5 @@ for j in range(N):
     t.assign(float(t) + float(dt))
     
     outfile1.write(sol.subfunctions[0], time=j * float(dt))
+    outfile2.write(sol.subfunctions[1], time=j * float(dt))
 
