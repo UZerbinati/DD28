@@ -306,8 +306,8 @@
 			\textbf{PETSc DMPlex} handles unstructured grids using the generic \textbf{PETSc} interface for hierarchy and multi-physics. 
 			$\newline$
 			\begin{itemize}
-				\item[\color{oxfordblue}$\blacktriangleright$] \textbf{PETSc DMPlex} provides a wide variety of primitive mesh operations such as: \textit{meet}, \textit{clousre}, \textit{cone}, etc
-				\item[\color{oxfordblue}$\blacktriangleright$] \textbf{PETSc DMPlex} provides a wide variety of mesh refinement operations such as: \textit{unifrom refinement}, \textit{Alfeld refinement}, \textit{box refinement}, etc
+				\item[\color{oxfordblue}$\blacktriangleright$] \textbf{PETSc DMPlex} provides a wide variety of primitive mesh operations such as: \textit{meet}, \textit{closure}, \textit{cone}, etc
++				\item[\color{oxfordblue}$\blacktriangleright$] \textbf{PETSc DMPlex} provides a wide variety of mesh refinement operations such as: \textit{uniform refinement}, \textit{Alfeld refinement}, \textit{box refinement}, etc
 			\end{itemize}
 		\end{minipage}
 		\qquad
@@ -328,21 +328,11 @@
 		\textbf{Firedrake} is an automated system for the solution of partial differential equations using the finite element method (FEM).
 		$\newline$
 		$\newline$
-		\begin{minipage}{0.58\textwidth}
 			\begin{itemize}
 				\item[\color{oxfordblue}$\blacktriangleright$] Variational formulation can be easily defined using the \textbf{UFL} language.
 				\item[\color{oxfordblue}$\blacktriangleright$] Wide class of finite elements are available, including $H(div)$, $H(curl)$, $H^1$ and $H^2$.
 				\item[\color{oxfordblue}$\blacktriangleright$] Provides access to \textbf{PETSc} linear solvers and non-linear solvers.
 			\end{itemize}
-		\end{minipage}
-		\qquad
-		\begin{minipage}{0.3\textwidth}
-			\begin{figure}
-				\centering
-				\includegraphics[scale=0.2]{Figures/Pacman.png}
-			\end{figure}
-			\vspace{0.3cm}
-		\end{minipage}
 	\end{frame}
 	\begin{frame}
 		\frametitle{ngsPETSc -- Firedrake}
@@ -353,7 +343,7 @@
 			\item[\color{oxfordblue}$\blacktriangleright$] Access to all Netgen generated linear meshes and high order meshes.
 			\item[\color{oxfordblue}$\blacktriangleright$] Splits for macro elements, such as Alfeld splits and Powell-Sabin splits (even on curved geometries).
 			\item[\color{oxfordblue}$\blacktriangleright$] Adaptive mesh refinement capabilities, that conform to the geometry.
-			\item[\color{oxfordblue}$\blacktriangleright$] High order meshes hierarchy for multigrid solvers.
+			\item[\color{oxfordblue}$\blacktriangleright$] High order mesh hierarchies for multigrid solvers. 
 		\end{itemize}
 	\end{frame}
 	\begin{frame}{Examples -- Opencascade via NETGEN}
@@ -371,8 +361,8 @@
 		$\newline$
 		Find $(\vec{u},p) \in V \times Q$ such that
 		\begin{align*}
-			\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v} \quad &\forall \vec{v} \in V \\
-			\int_{\Omega} q \nabla \cdot \vec{u} &= 0 \quad &\forall q \in Q
+			\nu\int_{\Omega} \varepsilon(\nabla \vec{u}): \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v} \quad &\forall \vec{v} \in V \\
+			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0 \quad &\forall q \in Q
 		\end{align*}
 		where $V$ and $Q$ are the velocity and pressure spaces respectively, i.e. $V = H^1_0(\Omega)^2$ and $Q = L^2_0(\Omega)$.
 	\end{frame}
@@ -383,8 +373,8 @@
 		We can also look for a discrete solution, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that	
 		\begin{minipage}{0.75\textwidth}
 			\begin{gather}
-				\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} = \int_{\Omega} \vec{f} \cdot \vec{v}\\
-				\int_{\Omega} q \nabla \cdot \vec{u} = 0
+				\nu\int_{\Omega} \varepsilon(\nabla \vec{u}) : \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} = \int_{\Omega} \vec{f} \cdot \vec{v}\\
+				-\int_{\Omega} q \nabla \cdot \vec{u} = 0
 			\end{gather}
 		for all $(\vec{v},q) \in V_h \times Q_h$.
 		\begin{equation}
@@ -431,7 +421,7 @@
 	\begin{frame}
 		\frametitle{Stokes flow -- Scott--Vogelius}
 		$\newline$
-		\lstinputlisting[language=python,firstline=38,lastline=41]{Examples/scottVogelius.py}
+		\lstinputlisting[language=python,firstline=39,lastline=42]{Examples/scottVogelius.py}
 		\vspace{-1cm}
 		\begin{figure}
 			\centering
@@ -489,7 +479,7 @@
 			\end{bmatrix}
 		\end{equation}
 		where $S$ is the \textbf{Schur complement}, i.e. $S = -BA^{-1}B^T$.
-		\lstinputlisting[language=python, firstline=18, lastline=21]{Examples/solvers.py}
+		\lstinputlisting[language=python, firstline=17, lastline=20]{Examples/solvers.py}
 	\end{frame}
 	\begin{frame}
 		\frametitle{Fieldsplit Schur preconditioner -- Mass matrix}
@@ -529,24 +519,15 @@
 		$\newline$
 		ngsPETSc allows us to create a hierarchy of curved meshes for multigrid solvers.
 		\lstinputlisting[language=python,firstline=19,lastline=21]{Examples/multigrid.py}
-		We can than use a multigrid solver to compute $\hat{A}^{-1}$:
+		We can then use a multigrid solver to compute $\hat{A}^{-1}$:
 		\lstinputlisting[language=python,firstline=18,lastline=23]{Examples/solvers.py}
-	\end{frame}
-	\begin{frame}{Monolithic multigrid on curved meshes -- Coarse mesh}
-		$\newline$
-		We can also a monolithic multigrid solver for the Schur complement:
-		\lstinputlisting[language=python,firstline=30,lastline=38]{Examples/solvers.py}
-	\end{frame}
-	\begin{frame}{Monolithic multigrid on curved meshes -- Fine mesh}
-		$\newline$
-		\lstinputlisting[language=python,firstline=43,lastline=53]{Examples/solvers.py}
 	\end{frame}
 	\begin{frame}{Navier-Stokes flow}
 		A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
 		In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2_0(\Omega)$ such that
 		\begin{align*}
 			\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\nabla \vec{u})\vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
-			\int_{\Omega} q \nabla \cdot \vec{u} &= 0
+			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
 		\end{align*}
 		for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2_0(\Omega)$.
 	\end{frame}
@@ -554,10 +535,10 @@
 		$\newline$
 		We consider an augmented Lagrangian formulation for the discrete problem, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that
 		\begin{align*}
-			(\partial_t\vec{u},\vec{v})_0 + (\nabla \vec{u}\vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
-			 & - (p,\nabla \cdot \vec{v})_0 + \frac{\gamma}{2}(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
+			(\partial_t\vec{u},\vec{v})_0 + (\vec{u}\cdot \nabla \vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
+			 & - (p,\nabla \cdot \vec{v})_0 + \gamma(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
 		\end{align*}
-		and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
+		and verifying the weak divergence free constraint $-(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
 	\end{frame}
 	\begin{frame}
 		\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
@@ -591,12 +572,12 @@
 		\begin{equation}
 			A_\gamma = A+\gamma B^TWB 	\qquad  S_\gamma = -BA_\gamma^{-1}B^T.
 		\end{equation}
-		In this case, we notice that independently of the Reynolds numbers $S_\gamma\sim - (\nu+\gamma)^{-1} M$.
+		In this case, we notice that $S_\gamma\sim - (\nu+\gamma)^{-1} M$, but $\mathcal{S}\not\sim \nu^{-1}M$.
 	\end{frame}
 	\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
 		$\newline$
 		\begin{itemize}
-			\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robuts.
+			\item [\color{oxfordblue}$\blacktriangleright$] The augmented Lagrangian term helps enforce the divergence-free constraint, and makes the scheme pressure robust.
 			\item [\color{oxfordblue}$\blacktriangleright$] We can use as preconditioner
 			\begin{equation}
 				\begin{bmatrix}
@@ -657,7 +638,7 @@ problems}
 		\frametitle{Robust relaxation -- Hood--Taylor}
 		\begin{equation*}
 			\begin{tikzcd}[row sep=huge]
-			0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2_0(\Omega) \arrow[r,""]\arrow[d] & 0\\
+			0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2(\Omega) \arrow[r,""]\arrow[d] & 0\\
 			0 \arrow[r,""] & \Big[\mathbb{P}^4(\mathcal{T}_h)\Big]^2 \arrow[r,"\curl"] & \Big[\mathbb{P}^3(\mathcal{T}_h)\Big]^2 \arrow[r,"\div"] & \mathbb{P}^2_{disc}(\mathcal{T}_h) \arrow[r,""] & 0\\
 			\end{tikzcd}
 		\end{equation*}
@@ -670,7 +651,7 @@ problems}
 	\begin{frame}
 		\frametitle{Robust prolongation -- Hood--Taylor}
 		$\newline$
-		\begin{block}{Robust relaxetion}
+		\begin{block}{Robust prolongation}
 			If the space pair $(V_h,Q_h)$ is inf-sup stable and the mesh we have a robust prolongation operator defined by:
 			\begin{equation}
 				\tilde P_H \vec{u}_H - \tilde{\vec{u}}_h = \vec{u}_H-\tilde{\vec{u}}_h,

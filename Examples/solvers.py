@@ -172,3 +172,7 @@ paramsALMG = {
     'snes_monitor': None,
     'snes_type': 'newtonls'
 }
+
+
+def eps(u):
+    return 0.5*(grad(u)+grad(u).T)

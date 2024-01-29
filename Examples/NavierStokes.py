@@ -2,7 +2,7 @@ from firedrake import *
 from irksome import Dt, MeshConstant, TimeStepper
 import netgen 
 from netgen.occ import *
-from solvers import paramsLU, paramsLaplaceMG, paramsPCDLU, paramsALMG, paramsALLU
+from solvers import paramsLU, paramsALMG, eps
 
 nu = Constant(1e-3); Re = 0.1/nu; gamma = Constant(1e3)
 refs = 2
@@ -79,7 +79,7 @@ nullspace = MixedVectorSpaceBasis(Z, [Z.sub(0), VectorSpaceBasis(constant=True)]
 print(GREEN % ("Solving for initial guess with nu: {}".format(float(nu))))
 #Solving Stokes for initial data
 
-a = (nu*inner(grad(u), grad(v)) - p * div(v) + div(u) * q)*dx
+a = (nu*inner(eps(u), eps(v)) - p * div(v) + div(u) * q)*dx
 L = inner(Constant((0, 0)), v) * dx
 sol0 = Function(Z)
 solve(a == L, sol0, bcs=bcs, solver_parameters=params0)

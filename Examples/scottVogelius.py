@@ -1,7 +1,7 @@
 from firedrake import *
 from netgen.occ import *
 from naca import naca
-from solvers import paramsLU
+from solvers import paramsLU, eps
 n = 140
 profile = "2412"
 xNACA = naca(profile, n, False, False)[0]
@@ -27,7 +27,7 @@ Z = V * W
 u, p = TrialFunctions(Z)
 v, q = TestFunctions(Z)
 nu = Constant(1e-3)
-a = (nu*inner(grad(u), grad(v)) - p * div(v) + div(u) * q)*dx
+a = (nu*inner(eps(u), eps(v)) - p * div(v) + div(u) * q)*dx
 L = inner(Constant((0, 0)), v) * dx
 
 
