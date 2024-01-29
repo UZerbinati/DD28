@@ -230,6 +230,23 @@
 	\begin{frame}[plain]
 		\titlepage
 	\end{frame}
+	\begin{frame}{Overview}
+		\begin{itemize}
+			\item[\color{oxfordblue}$\blacktriangleright$] Reynolds and pressure robust Hood-Taylor discretisation with high-order mesh.
+			\item[\color{oxfordblue}$\blacktriangleright$] Reynolds robust geometric multigrid on curved meshes.
+			\item[\color{oxfordblue}$\blacktriangleright$] Easy implementation:
+		\end{itemize}
+		\begin{minipage}{0.58\textwidth}
+			All codes are available on Github:
+			\texttt{https://github.com/UZerbinati/DD28}
+		\end{minipage}
+		\begin{minipage}{0.3\textwidth}
+			\begin{figure}
+				\centering
+				\includegraphics[scale=0.2]{Figures/Github.png}
+			\end{figure}
+		\end{minipage}
+	\end{frame}
 	\begin{frame}[plain]
 		\frametitle{NETGEN}
 		\ngshead
@@ -372,10 +389,10 @@
 		$\newline$
 		We can also look for a discrete solution, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that	
 		\begin{minipage}{0.75\textwidth}
-			\begin{gather}
-				\nu\int_{\Omega} \varepsilon(\nabla \vec{u}) : \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} = \int_{\Omega} \vec{f} \cdot \vec{v}\\
-				-\int_{\Omega} q \nabla \cdot \vec{u} = 0
-			\end{gather}
+			\begin{align*}
+				\nu\int_{\Omega} \varepsilon(\nabla \vec{u}) : \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
+				-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
+			\end{align*}
 		for all $(\vec{v},q) \in V_h \times Q_h$.
 		\begin{equation}
 			\underset{q\in Q_h}{\inf} \underset{\vec{v}\in V_h}{\sup} \frac{\int_{\Omega} q \nabla \cdot \vec{v}}{\norm{q}_{L^2} \norm{\vec{v}}_{H^1}} \geq \beta > 0	
@@ -526,7 +543,7 @@
 		A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
 		In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2_0(\Omega)$ such that
 		\begin{align*}
-			\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\nabla \vec{u})\vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
+			\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\vec{u}\cdot \nabla) \vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
 			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
 		\end{align*}
 		for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2_0(\Omega)$.
@@ -538,7 +555,7 @@
 			(\partial_t\vec{u},\vec{v})_0 + (\vec{u}\cdot \nabla \vec{u},\vec{v})_0 &+ \nu(\nabla \vec{u},\nabla \vec{v})_0 \\
 			 & - (p,\nabla \cdot \vec{v})_0 + \gamma(\nabla \cdot \vec{u},\nabla \cdot \vec{v})_0 &= (\vec{f},\vec{v})_0\\
 		\end{align*}
-		and verifying the weak divergence free constraint $-(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
+		and verifying the weak divergence free constraint $(\nabla \cdot \vec{u},q)_0 = 0$, for all $(\vec{v},q) \in V_h \times Q_h$.
 	\end{frame}
 	\begin{frame}
 		\frametitle{Navier-Stokes flow -- Fieldsplit Schour preconditioner}
@@ -612,7 +629,7 @@ problems}
 		\begin{equation}
 			P_H : V_H \rightarrow V_h, \qquad I : V_h \rightarrow V_i.
 		\end{equation}
-		We then consider as smoother the additive Schwarz preconditioner defined as:
+		We then consider as smoother the two--level additive Schwarz preconditioner defined as:
 		\begin{equation}
 			\hat{A}_\gamma^{-1} = P_H A_{\gamma,H}^{-1} P_H^T + \sum_{i=1} I_i A_{\gamma,i}^{-1} I_i^T.
 		\end{equation}
@@ -635,7 +652,7 @@ problems}
 		\end{block}
 	\end{frame}
 	\begin{frame}[fragile]
-		\frametitle{Robust relaxation -- Hood--Taylor}
+		\frametitle{Robust relaxation via FEEC -- Hood--Taylor}
 		\begin{equation*}
 			\begin{tikzcd}[row sep=huge]
 			0 \arrow[r,""] & \Big[H^2(\Omega)\Big]^2 \arrow[r,"\curl"] \arrow[d]& \Big[H^1_0(\Omega)\Big]^2 \arrow[r,"\div"] \arrow[d]& L^2(\Omega) \arrow[r,""]\arrow[d] & 0\\
@@ -652,7 +669,7 @@ problems}
 		\frametitle{Robust prolongation -- Hood--Taylor}
 		$\newline$
 		\begin{block}{Robust prolongation}
-			If the space pair $(V_h,Q_h)$ is inf-sup stable and the mesh we have a robust prolongation operator defined by:
+			If the space pair $(V_h,Q_h)$ is inf-sup stable and the meshes are nested, we have a robust prolongation operator defined by:
 			\begin{equation}
 				\tilde P_H \vec{u}_H - \tilde{\vec{u}}_h = \vec{u}_H-\tilde{\vec{u}}_h,
 			\end{equation}
@@ -669,5 +686,10 @@ problems}
 			\centering
 			\scalebox{0.2}{\animategraphics[loop,autoplay]{12}{Figures/NS/Velocity.}{0000}{0158}}
 		\end{figure}
+	\end{frame}
+	\begin{frame}
+		\frametitle{Firedrake' 24}
+		$\newline$
+		Join us at the Firedrake user and developer workshop that will be held between 16-18 September 2024 at the University of Oxford.
 	\end{frame}
 \end{document}

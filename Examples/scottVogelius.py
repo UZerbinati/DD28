@@ -27,7 +27,7 @@ Z = V * W
 u, p = TrialFunctions(Z)
 v, q = TestFunctions(Z)
 nu = Constant(1e-3)
-a = (nu*inner(eps(u), eps(v)) - p * div(v) + div(u) * q)*dx
+a = (nu*inner(eps(u), eps(v)) - p * div(v) - div(u) * q)*dx
 L = inner(Constant((0, 0)), v) * dx
 
 
