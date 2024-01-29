@@ -378,7 +378,7 @@
 		$\newline$
 		Find $(\vec{u},p) \in V \times Q$ such that
 		\begin{align*}
-			\nu\int_{\Omega} \varepsilon(\nabla \vec{u}): \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v} \quad &\forall \vec{v} \in V \\
+			\nu\int_{\Omega} \varepsilon(\vec{u}): \varepsilon(\vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v} \quad &\forall \vec{v} \in V \\
 			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0 \quad &\forall q \in Q
 		\end{align*}
 		where $V$ and $Q$ are the velocity and pressure spaces respectively, i.e. $V = H^1_0(\Omega)^2$ and $Q = L^2_0(\Omega)$.
@@ -390,7 +390,7 @@
 		We can also look for a discrete solution, i.e. find $(\vec{u}_h,p_h) \in V_h \times Q_h$ such that	
 		\begin{minipage}{0.75\textwidth}
 			\begin{align*}
-				\nu\int_{\Omega} \varepsilon(\nabla \vec{u}) : \varepsilon(\nabla \vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
+				\nu\int_{\Omega} \varepsilon(\vec{u}) : \varepsilon(\vec{v}) - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
 				-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
 			\end{align*}
 		for all $(\vec{v},q) \in V_h \times Q_h$.
@@ -541,12 +541,12 @@
 	\end{frame}
 	\begin{frame}{Navier-Stokes flow}
 		A more interesting example is the Navier-Stokes flow, which is a non-linear problem.
-		In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2_0(\Omega)$ such that
+		In particular, we will consider the problem of finding $(\vec{u},p) \in H^1(\Omega)^2\times L^2(\Omega)$ such that
 		\begin{align*}
 			\int_\Omega \partial_t \vec{u} \cdot \vec{v} + \int_\Omega(\vec{u}\cdot \nabla) \vec{u}\cdot\vec{v}+\nu\int_{\Omega} \nabla \vec{u} : \nabla \vec{v} - \int_{\Omega} p \nabla \cdot \vec{v} &= \int_{\Omega} \vec{f} \cdot \vec{v}\\
 			-\int_{\Omega} q \nabla \cdot \vec{u} &= 0
 		\end{align*}
-		for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2_0(\Omega)$.
+		for all $(\vec{v},q) \in H^1(\Omega)^2\times L^2(\Omega)$.
 	\end{frame}
 	\begin{frame}{Navier-Stokes flow -- Augmented Lagrangian}
 		$\newline$
